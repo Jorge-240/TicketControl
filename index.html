@@ -16,9 +16,17 @@
         <div class="navbar">
             <div class="logo-container">
                 <img src="assets/images/logo.png" alt="TicketControl Logo">
-
             </div>
-            <div class="nav-links">
+            
+            <!-- Menú hamburguesa para móviles -->
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <!-- Navegación principal -->
+            <div class="nav-links" id="navLinks">
                 <a href="#inicio">Inicio</a>
                 <a href="#beneficios">Beneficios</a>
                 <a href="#contacto">Contacto</a>
@@ -113,6 +121,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.27/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>

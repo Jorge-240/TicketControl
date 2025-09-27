@@ -727,3 +727,25 @@ function logout() {
         }
     });
 }
+
+// ------------------- Menú móvil -------------------
+function toggleMobileMenu() {
+    const navLinks = document.getElementById('navLinks');
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    
+    navLinks.classList.toggle('active');
+    mobileToggle.classList.toggle('active');
+}
+
+// Cerrar menú móvil al hacer clic en un enlace
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-links a, .nav-links button');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const mobileNav = document.getElementById('navLinks');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            mobileNav.classList.remove('active');
+            mobileToggle.classList.remove('active');
+        });
+    });
+});
