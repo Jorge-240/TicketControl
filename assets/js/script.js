@@ -733,6 +733,11 @@ function toggleMobileMenu() {
     const navLinks = document.getElementById('navLinks');
     const mobileToggle = document.querySelector('.mobile-menu-toggle');
     
+    // Solo permitir toggle en dispositivos móviles
+    if (window.innerWidth > 768) {
+        return;
+    }
+    
     if (navLinks && mobileToggle) {
         const isActive = navLinks.classList.contains('active');
         
@@ -740,12 +745,12 @@ function toggleMobileMenu() {
             // Cerrar menú
             navLinks.classList.remove('active');
             mobileToggle.classList.remove('active');
-            mobileToggle.style.display = 'flex';
+            document.body.style.overflow = 'auto'; // Restaurar scroll
         } else {
             // Abrir menú
             navLinks.classList.add('active');
             mobileToggle.classList.add('active');
-            // El CSS se encarga de ocultar el botón hamburguesa cuando el menú está activo
+            document.body.style.overflow = 'hidden'; // Prevenir scroll del body
         }
     }
 }
@@ -758,39 +763,38 @@ function closeMobileMenu() {
     if (navLinks && mobileToggle) {
         navLinks.classList.remove('active');
         mobileToggle.classList.remove('active');
-        // Asegurar que el botón hamburguesa vuelva a ser visible
-        mobileToggle.style.display = 'flex';
+        document.body.style.overflow = 'auto'; // Restaurar scroll
     }
 }
 
 // Cerrar menú móvil al hacer clic en un enlace
 document.addEventListener('DOMContentLoaded', function() {
-    // Usar delegación de eventos para capturar clics en  hamburguesaenlaces del menú
+    // Cerrar menú al hacer clic en enlaces del menú
     document.addEventListener('click', function(e) {
-        // Verificar si el clic es en un enlace del menú móvil
-        if (e.target.matches('.nav-links a') || e.target.matches('.nav-links button') || e.target.closest('.nav-links a') || e.target.closest('.nav-links button')) {
-            closeMobileMenu();
-        }
+        const navLinks = document.getElementById('navLinks');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
         
-        // Cerrar menú al hacer clic en la X (usando el pseudo-elemento)
-        const mobileNav = document.getElementById('navLinks');
-        if (mobileNav && mobileNav.classList.contains('active')) {
-            // Verificar si el clic es en el área de la X (esquina superior derecha)
-            const rect = mobileNav.getBoundingClientRect();
-            const x = e.clientX;
-            const y = e.clientY;
-            
-            // Si el clic está en el área de la X (esquina superior derecha del menú)
-            if (x >= rect.right - 60 && x <= rect.right - 10 && y >= rect.top + 10 && y <= rect.top + 50) {
+        // Solo procesar si estamos en móvil y el menú está abierto
+        if (window.innerWidth <= 768 && navLinks && navLinks.classList.contains('active')) {
+            // Verificar si el clic es en un enlace del menú móvil
+            if (e.target.matches('.nav-links a') || e.target.matches('.nav-links button') || 
+                e.target.closest('.nav-links a') || e.target.closest('.nav-links button')) {
                 closeMobileMenu();
                 return;
             }
             
-            // Cerrar menú al hacer clic fuera de él
-            const mobileToggle = document.querySelector('.mobile-menu-toggle');
-            if (!mobileNav.contains(e.target) && !mobileToggle.contains(e.target)) {
+            // Cerrar menú al hacer clic fuera de él (pero no en el toggle)
+            if (!navLinks.contains(e.target) && !mobileToggle.contains(e.target)) {
                 closeMobileMenu();
             }
+        }
+    });
+    
+    // Manejar cambio de tamaño de ventana
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            // Si cambiamos a escritorio, cerrar el menú móvil
+            closeMobileMenu();
         }
     });
 });

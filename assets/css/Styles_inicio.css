@@ -105,6 +105,34 @@ body {
     z-index: 1001;
 }
 
+/* Asegurar que el menú móvil esté oculto por defecto en escritorio */
+.navbar .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Asegurar que el toggle esté oculto en escritorio */
+@media (min-width: 769px) {
+    .mobile-menu-toggle {
+        display: none !important;
+    }
+    
+    .navbar .nav-links {
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+        background: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        flex-direction: row !important;
+    }
+    
+    .navbar .nav-links.active {
+        right: auto !important;
+    }
+}
+
 .mobile-menu-toggle span {
     width: 25px;
     height: 3px;
@@ -320,7 +348,8 @@ body {
         top: 0;
         right: -100%;
         width: 80%;
-        max-width: 200px;
+        max-width: 300px;
+        height: 100vh;
         background: linear-gradient(135deg, #001629 0%, #000b6b 100%);
         flex-direction: column;
         justify-content: flex-start;
@@ -328,6 +357,7 @@ body {
         padding: 80px 20px 20px;
         transition: right 0.3s ease;
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        z-index: 999;
     }
 
     .navbar .nav-links.active {
