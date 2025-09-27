@@ -18,7 +18,7 @@
                 <img src="assets/images/logo.png" alt="TicketControl Logo">
             </div>
             
-            <!-- Menú hamburguesa para móviles -->
+            <!-- Menú para móviles -->
             <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                 <span></span>
                 <span></span>
@@ -27,10 +27,10 @@
             
             <!-- Navegación principal -->
             <div class="nav-links" id="navLinks">
-                <a href="#inicio">Inicio</a>
-                <a href="#beneficios">Beneficios</a>
-                <a href="#contacto">Contacto</a>
-                <button class="btn btn-primary" onclick="window.location.href='pages/login.html'"><i
+                <a href="#inicio" onclick="closeMobileMenu()">Inicio</a>
+                <a href="#beneficios" onclick="closeMobileMenu()">Beneficios</a>
+                <a href="#contacto" onclick="closeMobileMenu()">Contacto</a>
+                <button class="btn btn-primary" onclick="closeMobileMenu(); window.location.href='pages/login.html'"><i
                         class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
             </div>
         </div>

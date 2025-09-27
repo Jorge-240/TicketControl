@@ -733,19 +733,41 @@ function toggleMobileMenu() {
     const navLinks = document.getElementById('navLinks');
     const mobileToggle = document.querySelector('.mobile-menu-toggle');
     
-    navLinks.classList.toggle('active');
-    mobileToggle.classList.toggle('active');
+    if (navLinks && mobileToggle) {
+        navLinks.classList.toggle('active');
+        mobileToggle.classList.toggle('active');
+    }
+}
+
+// Función para cerrar el menú móvil
+function closeMobileMenu() {
+    const navLinks = document.getElementById('navLinks');
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    
+    if (navLinks && mobileToggle) {
+        navLinks.classList.remove('active');
+        mobileToggle.classList.remove('active');
+    }
 }
 
 // Cerrar menú móvil al hacer clic en un enlace
 document.addEventListener('DOMContentLoaded', function() {
-    const navLinks = document.querySelectorAll('.nav-links a, .nav-links button');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            const mobileNav = document.getElementById('navLinks');
-            const mobileToggle = document.querySelector('.mobile-menu-toggle');
-            mobileNav.classList.remove('active');
-            mobileToggle.classList.remove('active');
-        });
+    // Usar delegación de eventos para capturar clics en enlaces del menú
+    document.addEventListener('click', function(e) {
+        // Verificar si el clic es en un enlace del menú móvil
+        if (e.target.matches('.nav-links a') || e.target.matches('.nav-links button') || e.target.closest('.nav-links a') || e.target.closest('.nav-links button')) {
+            closeMobileMenu();
+        }
+        
+        // Cerrar menú al hacer clic fuera de él
+        const mobileNav = document.getElementById('navLinks');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (mobileNav && mobileNav.classList.contains('active')) {
+            // Si el clic no es en el menú ni en el botón hamburguesa
+            if (!mobileNav.contains(e.target) && !mobileToggle.contains(e.target)) {
+                closeMobileMenu();
+            }
+        }
     });
 });
