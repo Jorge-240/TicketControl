@@ -734,8 +734,19 @@ function toggleMobileMenu() {
     const mobileToggle = document.querySelector('.mobile-menu-toggle');
     
     if (navLinks && mobileToggle) {
-        navLinks.classList.toggle('active');
-        mobileToggle.classList.toggle('active');
+        const isActive = navLinks.classList.contains('active');
+        
+        if (isActive) {
+            // Cerrar menú
+            navLinks.classList.remove('active');
+            mobileToggle.classList.remove('active');
+            mobileToggle.style.display = 'flex';
+        } else {
+            // Abrir menú
+            navLinks.classList.add('active');
+            mobileToggle.classList.add('active');
+            // El CSS se encarga de ocultar el botón hamburguesa cuando el menú está activo
+        }
     }
 }
 
@@ -747,24 +758,36 @@ function closeMobileMenu() {
     if (navLinks && mobileToggle) {
         navLinks.classList.remove('active');
         mobileToggle.classList.remove('active');
+        // Asegurar que el botón hamburguesa vuelva a ser visible
+        mobileToggle.style.display = 'flex';
     }
 }
 
 // Cerrar menú móvil al hacer clic en un enlace
 document.addEventListener('DOMContentLoaded', function() {
-    // Usar delegación de eventos para capturar clics en enlaces del menú
+    // Usar delegación de eventos para capturar clics en  hamburguesaenlaces del menú
     document.addEventListener('click', function(e) {
         // Verificar si el clic es en un enlace del menú móvil
         if (e.target.matches('.nav-links a') || e.target.matches('.nav-links button') || e.target.closest('.nav-links a') || e.target.closest('.nav-links button')) {
             closeMobileMenu();
         }
         
-        // Cerrar menú al hacer clic fuera de él
+        // Cerrar menú al hacer clic en la X (usando el pseudo-elemento)
         const mobileNav = document.getElementById('navLinks');
-        const mobileToggle = document.querySelector('.mobile-menu-toggle');
-        
         if (mobileNav && mobileNav.classList.contains('active')) {
-            // Si el clic no es en el menú ni en el botón hamburguesa
+            // Verificar si el clic es en el área de la X (esquina superior derecha)
+            const rect = mobileNav.getBoundingClientRect();
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Si el clic está en el área de la X (esquina superior derecha del menú)
+            if (x >= rect.right - 60 && x <= rect.right - 10 && y >= rect.top + 10 && y <= rect.top + 50) {
+                closeMobileMenu();
+                return;
+            }
+            
+            // Cerrar menú al hacer clic fuera de él
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
             if (!mobileNav.contains(e.target) && !mobileToggle.contains(e.target)) {
                 closeMobileMenu();
             }
